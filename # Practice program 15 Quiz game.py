@@ -1,4 +1,4 @@
-# ractice program 15 Quiz game
+# Practice program 15 Quiz game
 
 questions = (("How many elements are in the periodic table?: "), 
              ("Which animal lays the largest eggs?: "), 
@@ -54,3 +54,4 @@ print()
 
 score = int(score/len(questions) * 100)
 print(f"Your score is: {score}%")
+
