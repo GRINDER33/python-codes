@@ -53,8 +53,14 @@ def display_hint(hint):                           # Displays the hint in the for
 def display_answer(answer):
     print(" ".join(answer))                       # Displays answer with " " in between letters
 
-def main():
+def slow_print(text, delay=0.05):
+    for letter in text:
+        print(letter, end="", flush=True)
+        time.sleep(delay)
 
+def main():
+    
+    time.sleep(0.2)
     print("______________________________")
     print()
     print("           HANGMAN            ")
@@ -74,7 +80,8 @@ def main():
         print()
         
         time.sleep(0.3)
-        guess = input("Enter a letter: ").lower() 
+        slow_print("Enter a letter: ", 0.05)
+        guess = input().lower() 
         print("____________________________________|")
         if len(guess) != 1 or not guess.isalpha():# Checks for invalid input like words or digits
             print("Invalid input.")
