@@ -1,6 +1,8 @@
 # Practice program 23 Hangman Game 
 # Use word_list_animals.py and words_list_fruits.py as word dictionary
+
 import random 
+import time
 
 # dictionary of key:()
 hangman_art = {0:("                   ",
@@ -38,6 +40,7 @@ def display_answer(answer):
     print(" ".join(answer))                       # Displays answer with " " in between letters
 
 def main():
+
     print("______________________________")
     print()
     print("           HANGMAN            ")
@@ -55,15 +58,18 @@ def main():
         print()
         display_hint(hint)
         print()
-
+        
+        time.sleep(0.3)
         guess = input("Enter a letter: ").lower() 
-        print("______________________________")
+        print("____________________________________|")
         if len(guess) != 1 or not guess.isalpha():# Checks for invalid input like words or digits
             print("Invalid input.")
+            time.sleep(0.3)
             continue
         
         if guess in guessed_letters:
             print(f"{guess} is already guessed!")
+            time.sleep(0.3)
             continue
         
         guessed_letters.add(guess)                # Adds the guessed letters in list guesses_letters so code doesnt add it again
@@ -72,6 +78,7 @@ def main():
             for i in range(len(answer)):
                 if answer[i] == guess:
                     hint[i] = guess
+            time.sleep(0.3)
         else:
             wrong_guesses += 1
         
@@ -116,12 +123,15 @@ if __name__ == '__main__':
         else:
             print(f"Guessing Fruits...")
             print()
+        
+        time.sleep(0.3) 
 
         main() 
         exit_fnc = input("Press Q to exit or Enter to play again: ").lower()
         if exit_fnc != "q":                       # Breaks the loop
             continue
         else:
+            time.sleep(0.3)
             print("Exiting...")
             break
 
