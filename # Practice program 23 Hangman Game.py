@@ -1,35 +1,35 @@
 # Practice program 23 Hangman Game 
-# use word_list_animals.py and words_list_fruits.py for funtioning
+# Use word_list_animals.py and words_list_fruits.py as word dictionary
 import random 
 
 # dictionary of key:()
-hangman_art = {0:("   ",
-                  "   ",
-                  "   "),
-              1: (" o ",
-                  "   ",
-                  "   "),
-              2: (" o ",
-                  " | ",
-                  "   "),
-              3: (" o ",
-                  "/| ",
-                  "   "),
-              4: (" o ",
-                  "/|\\",
-                  "   "),
-              5: (" o ",
-                  "/|\\",
-                  "/  "),
-              6: (" o ",
-                  "/|\\",
-                  "/ \\")}
+hangman_art = {0:("                   ",
+                  "                   ",
+                  "                   "),
+              1: ("         o         ",
+                  "                   ",
+                  "                   "),
+              2: ("         o         ",
+                  "         |         ",
+                  "                   "),
+              3: ("         o         ",
+                  "        /|         ",
+                  "                   "),
+              4: ("         o         ",
+                  "        /|\\        ",
+                  "                   "),
+              5: ("         o         ",
+                  "        /|\\         ",
+                  "        /          "),
+              6: ("         o         ",
+                  "        /|\\        ",
+                  "        / \\        ")}
 
 def display_man(wrong_guesses):                   # Displays the part of man after wrong guesses
-    print("------------------------------")
+    print("______________________________")
     for line in hangman_art[wrong_guesses]:
         print(line)
-    print("------------------------------")
+    print("______________________________")
 
 def display_hint(hint):                           # Displays the hint in the form of "_" and joins it to hint
     print(" ".join(hint))
@@ -38,9 +38,10 @@ def display_answer(answer):
     print(" ".join(answer))                       # Displays answer with " " in between letters
 
 def main():
-    print("------------------------------")
+    print("______________________________")
+    print()
     print("           HANGMAN            ")
-    print("------------------------------")
+    print("______________________________")
 
     answer = random.choice(words).lower()         # Choses a random word from the provided word dictionary
     hint = ["_"] * len(answer)                    # Displays the hint as "_" answer number of times
@@ -48,13 +49,7 @@ def main():
     guessed_letters = set()
 
     while True:
-        if guess_type == "a":                     
-            print(f"Guessing Animals... ")
-            print()
-        else:
-            print(f"Guessing Fruits...")
-            print()
-        
+        print()
         print(f"Wrong Guesses: {wrong_guesses}")
         display_man(wrong_guesses)
         print()
@@ -62,6 +57,7 @@ def main():
         print()
 
         guess = input("Enter a letter: ").lower() 
+        print("______________________________")
         if len(guess) != 1 or not guess.isalpha():# Checks for invalid input like words or digits
             print("Invalid input.")
             continue
@@ -79,21 +75,26 @@ def main():
         else:
             wrong_guesses += 1
         
-        if "_" not in hint:                       # Gives out the win message if there are no "_" left in hint meaning the word is guessed
-            display_man(wrong_guesses)
+        if "_" not in hint:  
+            print(f"Wrong Guesses: {wrong_guesses}")                     
+            display_man(wrong_guesses)            # Gives out the win message if there are no "_" left in hint meaning the word is guessed
             display_answer(answer)
             print("****************")
             print("YOU WIN!")
+            print()
             print("****************")
             break
             
         elif wrong_guesses >= len(hangman_art) - 1:
+            print(f"Wrong Guesses: {wrong_guesses}")
             display_man(wrong_guesses)            # Gives out the lost message if all lives are lost 
             display_answer(answer)
             print("****************")
             print("YOU LOSE!")
+            print()
             print("****************")
             break
+
 if __name__ == '__main__':
     
     while True:
@@ -109,6 +110,12 @@ if __name__ == '__main__':
         except KeyboardInterrupt:                         # Present crashes for keyboard button interrupt like ctrl + c
                         print("\nPlease Enter the type!")
                         continue
+        if guess_type == "a":                     
+            print(f"Guessing Animals... ")
+            print()
+        else:
+            print(f"Guessing Fruits...")
+            print()
 
         main() 
         exit_fnc = input("Press Q to exit or Enter to play again: ").lower()
@@ -117,7 +124,6 @@ if __name__ == '__main__':
         else:
             print("Exiting...")
             break
-
 
 
 
