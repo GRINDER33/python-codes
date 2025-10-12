@@ -1,5 +1,5 @@
 # Practice program 23 Hangman Game 
-
+# use word_list_animals.py and words_list_fruits.py for funtioning
 import random 
 
 # dictionary of key:()
@@ -117,6 +117,7 @@ if __name__ == '__main__':
         else:
             print("Exiting...")
             break
+
 
 
 
