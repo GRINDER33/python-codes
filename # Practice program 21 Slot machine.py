@@ -1,5 +1,7 @@
 # Practice program 21 Slot machine
 import random
+import time
+import sys
 
 def spin_row():
     symbols = ['🍒', '🍉', '🍋', '🔔', '⭐']
@@ -9,6 +11,19 @@ def spin_row():
 
 def print_row(row):
     print(" | ".join(row))
+
+def animated_spin():
+    """Show spinning animation and return final row"""
+    for _ in range(10):  # 10 “frames” of spinning
+        temp_row = spin_row()
+        print_row(temp_row)
+        time.sleep(0.1)
+        # Move cursor up to overwrite previous row
+        sys.stdout.write("\033[F")  # ANSI escape code: move cursor up one line
+    # Final row
+    final_row = spin_row()
+    print_row(final_row)
+    return final_row
   
 def get_payout(row, bet):
     if row[0] == row[1] == row[2]:
@@ -54,7 +69,7 @@ def main():
         
         row = spin_row()
         print("Spinning...\n")
-        print_row(row)
+        row = animated_spin()
 
         payout = get_payout(row, bet)
 
