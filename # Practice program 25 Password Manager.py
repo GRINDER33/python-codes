@@ -82,6 +82,9 @@ def pass_name_input():
             slow_print("Enter the name for the password: ")
             pass_name = str(input())
             print()  # For better readability
+            slow_print("Enter Email: ")
+            email = str(input())
+            print()  # For better readability
             slow_print("Enter desired password length (4-32): ")
             pass_lngth = int(input())
             print()  # For better readability
@@ -108,7 +111,7 @@ def pass_name_input():
             print() # For better readability
             return
 
-        slow_print(f"Username: {pass_name} \nGenerated Password: {generated_password}\n")
+        slow_print(f"Username: {pass_name} \nEmail: {email} \nGenerated Password: {generated_password}\n")
         print()  # For better readability
 
         # Check and display password strength
@@ -121,13 +124,13 @@ def pass_name_input():
         save_perm = input("Do you want to save this password? (y/n): ").strip().lower()
         print()  # For better readability
 
-        if save_perm.startswith('y'):        
+        if save_perm.startswith("" or 'y'):        
 
             file_path = "F:/Password_Manager.txt"
 
             try:
                 with open(file_path, "a") as file:
-                    file.write(f"\n---------------------------\nUsername: {pass_name}\nPassword: {generated_password}\n")
+                    file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {generated_password}\n")
                     print(f"txt file '{file_path}' was appended")
                     print()  # For better readability
             except FileNotFoundError:
@@ -144,6 +147,9 @@ def manual_pass_name_input():
             slow_print("Enter the name for the password: ")
             pass_name = str(input())
             print()  # For better readability
+            slow_print("Enter Email: ")
+            email = str(input())
+            print()  # For better readability
             slow_print("Enter password: ")
             password = str(input())
             print()  # For better readability
@@ -154,7 +160,7 @@ def manual_pass_name_input():
             print("----------------------------------------") # For better readability
             print() # For better readability
 
-        slow_print(f"Username: {pass_name} \nPassword: {password}\n")
+        slow_print(f"Username: {pass_name} \nEmail: {email} \nPassword: {password}\n")
         print()  # For better readability
 
         # Check and display password strength
@@ -165,13 +171,13 @@ def manual_pass_name_input():
         save_perm = input("Do you want to save this password? (y/n): ").strip().lower()
         print()  # For better readability
 
-        if save_perm.startswith('y'):
+        if save_perm.startswith("" or 'y'):
 
             file_path = "F:/Password_Manager.txt"
 
             try:
                 with open(file_path, "a") as file:
-                    file.write(f"\n---------------------------\nUsername: {pass_name}\nPassword: {password}\n")
+                    file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {password}\n")
                     print(f"txt file '{file_path}' was appended")
                     print()  # For better readability
             except FileNotFoundError:
@@ -207,6 +213,8 @@ def main():
             print("----------------------------------------")  # For better readability
             print()
         exit_fnc = input("Do you want to stay? (y/n): ").strip().lower()
+        print()  # For better readability
+
         if exit_fnc.startswith('n'):
             slow_print("Exiting Password Manager. Goodbye!\n")
             break
