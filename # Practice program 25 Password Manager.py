@@ -5,7 +5,7 @@ import time
 import string
 import random
 
-pass_lib = string.punctuation + string.digits + string.ascii_letters
+pass_lib = string.punctuation + string.digits + string.ascii_letters # all character types
 pass_lib = list(pass_lib)
 
 # Function for slow printing
@@ -82,14 +82,16 @@ def pass_name_input():
             slow_print("Enter the name for the password: ")
             pass_name = str(input())
             print()  # For better readability
+
             slow_print("Enter Email: ")
             email = str(input())
             print()  # For better readability
+
             slow_print("Enter desired password length (4-32): ")
             pass_lngth = int(input())
             print()  # For better readability
 
-            if 4 <= pass_lngth <= 32:
+            if 4 <= pass_lngth <= 32:  
                 generated_password = generate_password(pass_lngth)
 
             elif pass_lngth < 4:
@@ -124,22 +126,45 @@ def pass_name_input():
         save_perm = input("Do you want to save this password? (y/n): ").strip().lower()
         print()  # For better readability
 
-        if save_perm.startswith("" or 'y'):        
+        if save_perm.startswith("") or save_perm.startswith('y'):        
 
-            file_path = "F:/Password_Manager.txt"
+            chances = 3 # Number of attempts
+            correct_pass = "admin123" # Example access password
+            print()  # For better readability
+            save_access = True
 
-            try:
-                with open(file_path, "a") as file:
-                    file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {generated_password}\n")
-                    print(f"txt file '{file_path}' was appended")
+            while save_access:     # Loop until valid input or attempts exhausted
+
+                file_path = "F:/Password_Manager.txt"
+                slow_print("Enter password to confirm saving: ")
+                access_pass = str(input())
+                print()  # For better readability
+
+                if access_pass == correct_pass:
+
+                    try:
+                        with open(file_path, "a") as file:
+                            file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {generated_password}\n")
+                            print(f"txt file '{file_path}' was appended")
+                            print()  # For better readability
+
+                    except FileNotFoundError:
+                        slow_print("Error: File path not found. Please check your drive or path.\n")
+                        print()  # For better readability  
+                    save_access = False # Exit the loop after error
+                else:
+                    chances -= 1
+                    slow_print(f"Incorrect password! Password not saved. You have {chances} attempts left.\n")
+                    slow_print("-------------------------------------------------------\n")
                     print()  # For better readability
-            except FileNotFoundError:
-                slow_print("Error: File path not found. Please check your drive or path.\n")
-                print()  # For better readability   
+                    if chances == 0:
+                        slow_print("No attempts left! Password not saved.\n")
+                        print()  # For better readability
+                        save_access = False # Exit the loop after exhausting attempts
+
         else:
             slow_print("Password not saved.\n")
             print()  # For better readability
-
 
 # For manual password with name and saveing to txt file
 def manual_pass_name_input():
@@ -147,9 +172,11 @@ def manual_pass_name_input():
             slow_print("Enter the name for the password: ")
             pass_name = str(input())
             print()  # For better readability
+
             slow_print("Enter Email: ")
             email = str(input())
             print()  # For better readability
+
             slow_print("Enter password: ")
             password = str(input())
             print()  # For better readability
@@ -171,21 +198,86 @@ def manual_pass_name_input():
         save_perm = input("Do you want to save this password? (y/n): ").strip().lower()
         print()  # For better readability
 
-        if save_perm.startswith("" or 'y'):
+        if save_perm.startswith("") or save_perm.startswith('y'):
 
-            file_path = "F:/Password_Manager.txt"
+            chances = 3 # Number of attempts
+            correct_pass = "admin123" # Example access password
+            print()  # For better readability
+            save_access = True
 
-            try:
-                with open(file_path, "a") as file:
-                    file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {password}\n")
-                    print(f"txt file '{file_path}' was appended")
+            while save_access:     # Loop until valid input or attempts exhausted
+
+                file_path = "F:/Password_Manager.txt"
+                slow_print("Enter password to confirm saving: ")
+                access_pass = str(input())
+                print()  # For better readability
+
+                if access_pass == correct_pass:
+
+                    try:
+                        with open(file_path, "a") as file:
+                            file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {password}\n")
+                            print(f"txt file '{file_path}' was appended")
+                            print()  # For better readability
+
+                    except FileNotFoundError:
+                        slow_print("Error: File path not found. Please check your drive or path.\n")
+                        print()  # For better readability  
+                    save_access = False # Exit the loop after error
+                else:
+                    chances -= 1
+                    slow_print(f"Incorrect password! Password not saved. You have {chances} attempts left.\n")
+                    slow_print("-------------------------------------------------------\n")
                     print()  # For better readability
-            except FileNotFoundError:
-                slow_print("Error: File path not found. Please check your drive or path.\n")
-                print()  # For better readability   
+                    if chances == 0:
+                        slow_print("No attempts left! Password not saved.\n")
+                        print()  # For better readability
+                        save_access = False # Exit the loop after exhausting attempts
+
         else:
             slow_print("Password not saved.\n")
             print()  # For better readability
+
+def show_passwords():
+    
+    chances = 3 # Number of attempts
+    file_path = "F:/Password_Manager.txt"
+    correct_pass = "admin123" # Example access password
+
+    is_valid = True # Flag to control the loop
+
+    while is_valid:     # Loop until valid input or attempts exhausted
+
+        slow_print("Enter password to access saved passwords: ")
+        access_pass = str(input())
+        print()  # For better readability
+
+        if access_pass == correct_pass:
+            try:
+                with open(file_path, "r") as file:
+                    content = file.read()
+                    slow_print("Saved Passwords:\n")
+                    slow_print("-----------------------------\n")
+                    print()  # For better readability
+                    slow_print(content + "\n")
+
+            except FileNotFoundError:
+                slow_print("Error: File path not found. Please check your drive or path.\n")
+                print()  # For better readability
+            is_valid = False # Exit the loop after successful access
+        else:
+            chances -= 1
+            slow_print(f"Incorrect password! You have {chances} attempts left.\n")
+            slow_print("-------------------------------------------------------\n")
+            print()  # For better readability
+            if chances == 0:
+                slow_print("No attempts left! Access denied.\n")
+                print()  # For better readability
+                is_valid = False # Exit the loop after exhausting attempts
+            
+            
+
+
 
 # Main function to run the password manager           
 def main():
@@ -194,9 +286,9 @@ def main():
     print("------------------------------")
 
     while True:
-        slow_print("Choose an option:\n1. Generate Password\n2. Generate Password with Name\n3. Manual Password with Name\n4. Exit\n")
+        slow_print("Choose an option:\n1. Generate Password\n2. Generate Password with Name\n3. Manual Password with Name\n4. Show Saved Passwords\n5. Exit\n")
         print()  # For better readability
-        choice = input("Enter your choice (1-4): ").strip()
+        choice = input("Enter your choice (1-5): ").strip()
         print()  # For better readability
 
         if choice == '1':
@@ -206,6 +298,8 @@ def main():
         elif choice == '3':
             manual_pass_name_input()
         elif choice == '4':
+            show_passwords() 
+        elif choice == '5':
             slow_print("Exiting Password Manager. Goodbye!\n")
             break
         else:
