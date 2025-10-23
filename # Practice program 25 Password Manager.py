@@ -8,6 +8,8 @@ import random
 pass_lib = string.punctuation + string.digits + string.ascii_letters # all character types
 pass_lib = list(pass_lib)
 
+file_path = "F:/Password_Manager.txt"
+
 # Function for slow printing
 def slow_print(text, delay=0.01):
     for letter in text:
@@ -135,7 +137,6 @@ def pass_name_input():
 
             while save_access:     # Loop until valid input or attempts exhausted
 
-                file_path = "F:/Password_Manager.txt"
                 slow_print("Enter password to confirm saving: ")
                 access_pass = str(input())
                 print()  # For better readability
@@ -207,7 +208,6 @@ def manual_pass_name_input():
 
             while save_access:     # Loop until valid input or attempts exhausted
 
-                file_path = "F:/Password_Manager.txt"
                 slow_print("Enter password to confirm saving: ")
                 access_pass = str(input())
                 print()  # For better readability
@@ -241,7 +241,6 @@ def manual_pass_name_input():
 def show_passwords():
     
     chances = 3 # Number of attempts
-    file_path = "F:/Password_Manager.txt"
     correct_pass = "admin123" # Example access password
 
     is_valid = True # Flag to control the loop
