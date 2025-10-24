@@ -4,11 +4,13 @@ import os
 import time
 import string
 import random
+from cryptography.fernet import Fernet
 
 pass_lib = string.punctuation + string.digits + string.ascii_letters # all character types
 pass_lib = list(pass_lib)
 
-file_path = "F:/Password_Manager.txt"
+file_path = "Password_Manager.txt"
+key_path = "secret.key"
 
 # Function for slow printing
 def slow_print(text, delay=0.01):
@@ -42,6 +44,22 @@ def check_strength(password):
         return "Strong 🟢"
     else:
         return "Very Strong 🟣"
+
+# Encryption key management
+def load_key():
+    """Creates or loads encryption key."""
+    if not os.path.exists(key_path):
+        key = Fernet.generate_key()
+        with open(key_path, "wb") as key_file:
+            key_file.write(key)
+    else:
+        with open(key_path, "rb") as key_file:
+            key = key_file.read()
+    return Fernet(key)
+
+f = load_key()
+    
+
 
 # Simple password generation
 def pass_input():
@@ -144,8 +162,13 @@ def pass_name_input():
                 if access_pass == correct_pass:
 
                     try:
+                        encrypted_pass = f.encrypt(generated_password.encode())
                         with open(file_path, "a") as file:
-                            file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {generated_password}\n")
+                            file.write(f"\n---------------------------\n"
+                                       f"Username: {pass_name}\n"
+                                       f"Email: {email} \n"
+                                       f"Password: {encrypted_pass}\n")
+                            
                             print(f"txt file '{file_path}' was appended")
                             print()  # For better readability
 
@@ -215,8 +238,13 @@ def manual_pass_name_input():
                 if access_pass == correct_pass:
 
                     try:
+                        encrypted_pass = f.encrypt(password.encode())
                         with open(file_path, "a") as file:
-                            file.write(f"\n---------------------------\nUsername: {pass_name}\nEmail: {email} \nPassword: {password}\n")
+                            file.write(f"\n---------------------------\n"
+                                       f"Username: {pass_name}\n"
+                                       f"Email: {email} \n"
+                                       f"Password: {encrypted_pass}\n")
+                            
                             print(f"txt file '{file_path}' was appended")
                             print()  # For better readability
 
@@ -253,12 +281,22 @@ def show_passwords():
 
         if access_pass == correct_pass:
             try:
+                
                 with open(file_path, "r") as file:
-                    content = file.read()
+                    lines = file.readlines()
                     slow_print("Saved Passwords:\n")
                     slow_print("-----------------------------\n")
-                    print()  # For better readability
-                    slow_print(content + "\n")
+                    for line in lines:
+                        if line.startswith("Password: "):
+                            enc_pass = line.replace("Password: ", "").strip()
+                            try:
+                                decrypted = f.decrypt(enc_pass.encode()).decode()
+                                slow_print(f"Password: {decrypted}\n")
+                            except Exception:
+                                slow_print(f"Password: {enc_pass} (decryption failed)\n")
+                        else:
+                            slow_print(line)
+                    slow_print("-----------------------------\n")
 
             except FileNotFoundError:
                 slow_print("Error: File path not found. Please check your drive or path.\n")
@@ -274,8 +312,6 @@ def show_passwords():
                 print()  # For better readability
                 is_valid = False # Exit the loop after exhausting attempts
             
-            
-
 
 
 # Main function to run the password manager           
@@ -283,6 +319,7 @@ def main():
     print("------------------------------")
     print("       Password Manager       ")
     print("------------------------------")
+
 
     while True:
         slow_print("Choose an option:\n1. Generate Password\n2. Generate Password with Name\n3. Manual Password with Name\n4. Show Saved Passwords\n5. Exit\n")
